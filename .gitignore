@@ -1,0 +1,6 @@
+*.pyc
+*.cache
+*.sublime-project
+.idea
+.DS_Store
+tags
