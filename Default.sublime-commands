@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "Pretty Proto: Format Protobuf ShortDebugString",
+        "command": "pretty_proto"
+    }
+]
