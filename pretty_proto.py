@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import re
 import json
 import sys
 import sublime
@@ -20,7 +21,9 @@ t_NUMBER = r'-?([0-9]+)(.[0-9]+)?([eE][-+]?[0-9]+)?'
 
 def t_STRING(t):
     r'\"([^\\\n]|(\\(.|\n)))*?\"'
-    t.value = t.value[1:-1]
+    def octrepl(m):
+        return bytes([int(m[1], 8), int(m[2], 8), int(m[3], 8)]).decode()
+    t.value = re.sub(r'\\(\d{3})\\(\d{3})\\(\d{3})', octrepl, t.value[1:-1])
     return t
 
 t_ignore = " \t"
@@ -41,7 +44,7 @@ lexer = lex.lex()
 
 def p_statement_expr(p):
     "statement : pair_list"
-    p[0] = json.dumps(p[1], indent=4)
+    p[0] = json.dumps(p[1], indent=4, ensure_ascii=False)
 
 def p_expression_literal(p):
     """literal : BOOL
