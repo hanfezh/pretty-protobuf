@@ -51,8 +51,11 @@ def p_expression_literal(p):
 
 def p_expression_pair(p):
     """pair : NAME ':' literal
-            | NAME ':' object"""
-    p[0] = {p[1]: p[3]}
+            | NAME object"""
+    if p[2] == ':':
+        p[0] = {p[1]: p[3]}
+    else:
+        p[0] = {p[1]: p[2]}
 
 def p_expression_pair_list(p):
     """pair_list : pair
