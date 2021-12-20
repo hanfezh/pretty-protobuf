@@ -4,7 +4,7 @@
 import re
 import json
 import sys
-from collections import defaultdict
+from collections import OrderedDict
 import sublime
 import sublime_plugin
 
@@ -56,24 +56,30 @@ def p_expression_literal(p):
 def p_expression_pair(p):
     """pair : NAME ':' literal
             | NAME object"""
-    p[0] = defaultdict(list)
     if p[2] == ':':
-        p[0][p[1]].append(p[3])
+        p[0] = OrderedDict({p[1]: p[3]})
     else:
-        p[0][p[1]].append(p[2])
+        p[0] = OrderedDict({p[1]: p[2]})
 
 def p_expression_pair_list(p):
     """pair_list : pair
                  | pair_list pair"""
     p[0] = p[1]
-    if len(p) > 2:
-        p[0].update(p[2])
+    if len(p) <= 2:
+        return
+    for k, v in p[2]:
+        if k not in p[0]:
+            p[0][k] = v
+        else isinstance(p[0][k], list):
+            p[0][k].append(v)
+        else:
+            p[0][k] = [p[0][k], v]
 
 def p_expression_object(p):
     """object : '{' '}'
               | '{' pair_list '}'"""
     if p[2] == '}':
-        p[0] = defaultdict(list)
+        p[0] = OrderedDict()
     else:
         p[0] = p[2]
 
