@@ -67,10 +67,10 @@ def p_expression_pair_list(p):
     p[0] = p[1]
     if len(p) <= 2:
         return
-    for k, v in p[2]:
+    for k, v in p[2].items():
         if k not in p[0]:
             p[0][k] = v
-        else isinstance(p[0][k], list):
+        elif isinstance(p[0][k], list):
             p[0][k].append(v)
         else:
             p[0][k] = [p[0][k], v]
