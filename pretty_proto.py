@@ -102,7 +102,7 @@ class PrettyProtoCommand(sublime_plugin.TextCommand):
         first_reg = self.view.sel()[0]
         if first_reg.empty():
             first_reg = sublime.Region(0, self.view.size())
-        lines = self.view.substr(first_reg).strip()
+        lines = self.view.substr(first_reg)
         if lines:
             lines = pretty_proto(lines)
             self.view.replace(edit, first_reg, lines)
