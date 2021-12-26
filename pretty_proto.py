@@ -1,101 +1,127 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import re
 import json
+import os
+import re
 import sys
+from .ply import lex, yacc
 from collections import OrderedDict
 import sublime
 import sublime_plugin
 
-tokens = (
-    'NAME', 'BOOL', 'NUMBER', 'STRING'
-)
+class Parser:
+    """
+    Base class for a lexer/parser that has the rules defined as methods
+    """
+    tokens = ()
+    precedence = ()
 
-literals = ['{', '}', '[', ']', ':']
+    def __init__(self, **kw):
+        self.debug = kw.get('debug', 0)
+        self.names = {}
+        try:
+            modname = os.path.split(os.path.splitext(__file__)[0])[
+                1] + "_" + self.__class__.__name__
+        except:
+            modname = "parser" + "_" + self.__class__.__name__
+        self.debugfile = modname + ".dbg"
+        # print self.debugfile
 
-# Tokens
+        # Build the lexer and parser
+        lex.lex(module=self, debug=self.debug)
+        yacc.yacc(module=self,
+                  debug=self.debug,
+                  debugfile=self.debugfile)
 
-t_NAME = r'(?!true|false)[a-zA-Z_][a-zA-Z0-9_]*'
-t_BOOL = r'true|false'
-t_NUMBER = r'-?([0-9]+)(.[0-9]+)?([eE][-+]?[0-9]+)?'
+    def parse(self, s):
+        return yacc.parse(s)
 
-def t_STRING(t):
-    r'\"([^\\\n]|(\\(.|\n)))*?\"'
-    def octrepl(m):
-        return bytes([int(m[1], 8), int(m[2], 8), int(m[3], 8)]).decode()
-    t.value = re.sub(r'\\(\d{3})\\(\d{3})\\(\d{3})', octrepl, t.value[1:-1])
-    return t
+class ProtoParser(Parser):
+    tokens = (
+        'NAME', 'BOOL', 'NUMBER', 'STRING'
+    )
 
-t_ignore = " \t"
+    literals = ['{', '}', '[', ']', ':']
 
-def t_newline(t):
-    r'\n+'
-    t.lexer.lineno += t.value.count("\n")
+    # Tokens
 
-def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+    t_NAME = r'(?!true|false)[a-zA-Z_][a-zA-Z0-9_]*'
+    t_BOOL = r'true|false'
+    t_NUMBER = r'-?([0-9]+)(.[0-9]+)?([eE][-+]?[0-9]+)?'
 
-# Build the lexer
-from .ply import lex
-lexer = lex.lex()
+    def t_STRING(self, t):
+        r'\"([^\\\n]|(\\(.|\n)))*?\"'
+        def octrepl(m):
+            return bytes([int(m[1], 8), int(m[2], 8), int(m[3], 8)]).decode()
+        t.value = re.sub(r'\\(\d{3})\\(\d{3})\\(\d{3})', octrepl, t.value[1:-1])
+        return t
 
-# Parsing rules
+    t_ignore = " \t"
 
-def p_statement_expr(p):
-    "statement : pair_list"
-    p[0] = json.dumps(p[1], indent=4, ensure_ascii=False)
+    def t_newline(self, t):
+        r'\n+'
+        t.lexer.lineno += t.value.count("\n")
 
-def p_expression_literal(p):
-    """literal : BOOL
-               | NUMBER
-               | STRING"""
-    p[0] = p[1]
+    def t_error(self, t):
+        print("Illegal character '%s'" % t.value[0])
+        t.lexer.skip(1)
 
-def p_expression_pair(p):
-    """pair : NAME ':' literal
-            | NAME object"""
-    if p[2] == ':':
-        p[0] = OrderedDict({p[1]: p[3]})
-    else:
-        p[0] = OrderedDict({p[1]: p[2]})
+    # Parsing rules
 
-def p_expression_pair_list(p):
-    """pair_list : pair
-                 | pair_list pair"""
-    p[0] = p[1]
-    if len(p) <= 2:
-        return
-    for k, v in p[2].items():
-        if k not in p[0]:
-            p[0][k] = v
-        elif isinstance(p[0][k], list):
-            p[0][k].append(v)
+    def p_statement_expr(self, p):
+        "statement : pair_list"
+        p[0] = json.dumps(p[1], indent=4, ensure_ascii=False)
+
+    def p_expression_literal(self, p):
+        """literal : BOOL
+                   | NUMBER
+                   | STRING"""
+        p[0] = p[1]
+
+    def p_expression_pair(self, p):
+        """pair : NAME ':' literal
+                | NAME object"""
+        if p[2] == ':':
+            p[0] = OrderedDict({p[1]: p[3]})
         else:
-            p[0][k] = [p[0][k], v]
+            p[0] = OrderedDict({p[1]: p[2]})
 
-def p_expression_object(p):
-    """object : '{' '}'
-              | '{' pair_list '}'"""
-    if p[2] == '}':
-        p[0] = OrderedDict()
-    else:
-        p[0] = p[2]
+    def p_expression_pair_list(self, p):
+        """pair_list : pair
+                     | pair_list pair"""
+        p[0] = p[1]
+        if len(p) <= 2:
+            return
+        for k, v in p[2].items():
+            if k not in p[0]:
+                p[0][k] = v
+            elif isinstance(p[0][k], list):
+                p[0][k].append(v)
+            else:
+                p[0][k] = [p[0][k], v]
 
-def p_error(p):
-    if p:
-        print("Syntax error at '%s'" % p.value)
-    else:
-        print("Syntax error at EOF")
+    def p_expression_object(self, p):
+        """object : '{' '}'
+                  | '{' pair_list '}'"""
+        if p[2] == '}':
+            p[0] = OrderedDict()
+        else:
+            p[0] = p[2]
 
-from .ply import yacc
-parser = yacc.yacc()
+    def p_error(self, p):
+        if p:
+            print("Syntax error at '%s'" % p.value)
+        else:
+            print("Syntax error at EOF")
 
-def pretty_proto(s):
-    return yacc.parse(s)
 
 class PrettyProtoCommand(sublime_plugin.TextCommand):
+    parser = ProtoParser()
+
+    def pretty_proto(s):
+        return parser.parse(s)
+
     def run(self, edit):
         if len(self.view.sel()) < 1:
             return
