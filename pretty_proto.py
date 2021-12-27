@@ -69,7 +69,8 @@ class ProtoParser(Parser):
     # Parsing rules
 
     def p_statement_expr(self, p):
-        "statement : pair_list"
+        """statement : pair_list
+                     | object"""
         p[0] = p[1]
 
     def p_expression_literal(self, p):
