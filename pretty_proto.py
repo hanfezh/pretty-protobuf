@@ -119,7 +119,7 @@ class ProtoParser(Parser):
 class PrettyProtoCommand(sublime_plugin.TextCommand):
     parser = ProtoParser()
 
-    def pretty_proto(s):
+    def pretty_proto(self, s):
         return parser.parse(s)
 
     def run(self, edit):
@@ -130,5 +130,5 @@ class PrettyProtoCommand(sublime_plugin.TextCommand):
             first_reg = sublime.Region(0, self.view.size())
         lines = self.view.substr(first_reg)
         if lines:
-            lines = pretty_proto(lines)
+            lines = self.pretty_proto(lines)
             self.view.replace(edit, first_reg, lines)
