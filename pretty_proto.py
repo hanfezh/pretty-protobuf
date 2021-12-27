@@ -120,7 +120,7 @@ class PrettyProtoCommand(sublime_plugin.TextCommand):
     parser = ProtoParser()
 
     def pretty_proto(self, s):
-        return parser.parse(s)
+        return self.parser.parse(s)
 
     def run(self, edit):
         if len(self.view.sel()) < 1:
