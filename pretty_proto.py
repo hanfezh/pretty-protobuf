@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json
 import os
 import re
 import sys
@@ -54,7 +53,7 @@ class ProtoParser(Parser):
         r'\"([^\\\n]|(\\(.|\n)))*?\"'
         def octrepl(m):
             return bytes([int(m[1], 8), int(m[2], 8), int(m[3], 8)]).decode()
-        t.value = re.sub(r'\\(\d{3})\\(\d{3})\\(\d{3})', octrepl, t.value[1:-1])
+        t.value = re.sub(r'\\(\d{3})\\(\d{3})\\(\d{3})', octrepl, t.value)
         return t
 
     t_ignore = " \t"
@@ -71,7 +70,7 @@ class ProtoParser(Parser):
 
     def p_statement_expr(self, p):
         "statement : pair_list"
-        p[0] = json.dumps(p[1], indent=4, ensure_ascii=False)
+        p[0] = p[1]
 
     def p_expression_literal(self, p):
         """literal : BOOL
@@ -115,12 +114,41 @@ class ProtoParser(Parser):
         else:
             print("Syntax error at EOF")
 
+class ProtoFormatter:
+    def __init__(self, obj):
+        self.__obj = obj
+        self.__lst = []
+        self.__spaces = 4
+        self.__seperator = ' '
+
+    def format(self):
+        self.__format('', self.__obj)
+        return '\n'.join(self.__lst)
+
+    def __format(self, name, obj, times=0):
+        if isinstance(obj, dict):
+            spaces = self.__seperator * times
+            self.__append(f'{spaces}{name} {{' if name else f'{spaces}{{')
+            for k, v in obj.items():
+                self.__format(k, v, times + self.__spaces)
+            self.__append(f'{spaces}}}')
+        elif isinstance(obj, list):
+            for item in obj:
+                self.__format(name, item, times)
+        elif isinstance(obj, str):
+            self.__append(f'{self.__seperator * times}{name}: {obj}')
+        else:
+            pass
+
+    def __append(self, s):
+        self.__lst.append(s)
 
 class PrettyProtoCommand(sublime_plugin.TextCommand):
     parser = ProtoParser()
 
     def pretty_proto(self, s):
-        return self.parser.parse(s)
+        obj = self.parser.parse(s)
+        return ProtoFormatter(obj).format()
 
     def run(self, edit):
         if len(self.view.sel()) < 1:
