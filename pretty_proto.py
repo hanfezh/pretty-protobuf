@@ -61,7 +61,11 @@ class ProtoParser(Parser):
             s = m.group(0).split('\\')[1:]
             b = bytearray()
             b.extend(map(xint, s))
-            return b.decode()
+            try:
+                return b.decode()
+            except UnicodeError as err:
+                print(f'{m.group(0) = }\n{err = }')
+                return m.group(0)
         # Transform octal '\nnn' or hex '\xnn' byte sequences to string object
         t.value = re.sub(r'((\\[0-7]{3})|(\\x[\da-fA-E]{2}))+', byterepl, t.value)
         return t
