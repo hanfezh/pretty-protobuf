@@ -51,9 +51,19 @@ class ProtoParser(Parser):
 
     def t_STRING(self, t):
         r'\"([^\\\n]|(\\(.|\n)))*?\"'
-        def octrepl(m):
-            return bytes([int(m[1], 8), int(m[2], 8), int(m[3], 8)]).decode()
-        t.value = re.sub(r'\\(\d{3})\\(\d{3})\\(\d{3})', octrepl, t.value)
+        def xint(s):
+            is_hex = False
+            if s[0] in ('x', 'X'):
+                s = s[1:]
+                is_hex = True
+            return int(s, 16 if is_hex else 8)
+        def byterepl(m):
+            s = m.group(0).split('\\')[1:]
+            b = bytearray()
+            b.extend(map(xint, s))
+            return b.decode()
+        # Transform octal '\nnn' or hex '\xnn' byte sequences to string object
+        t.value = re.sub(r'((\\[0-7]{3})|(\\x[\da-fA-E]{2}))+', byterepl, t.value)
         return t
 
     t_ignore = " \t"
