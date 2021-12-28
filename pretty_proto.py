@@ -88,9 +88,11 @@ class ProtoParser(Parser):
         p[0] = p[1]
 
     def p_expression_literal(self, p):
-        """literal : BOOL
+        """literal : NAME
+                   | BOOL
                    | NUMBER
                    | STRING"""
+        # NAME support enum
         p[0] = p[1]
 
     def p_expression_pair(self, p):
