@@ -1,6 +1,6 @@
 [
     {
-        "caption": "Pretty Proto: Format Protobuf ShortDebugString",
+        "caption": "Pretty Proto: Format Protobuf Debug String",
         "command": "pretty_proto"
     }
 ]

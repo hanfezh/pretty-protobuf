@@ -9,11 +9,17 @@ Install "Pretty Proto" via [Package Control](https://packagecontrol.io/)
 
 ## Usage
 
-To prettify proto, select message's ShortDebugString and run command *pretty_proto* through Command Palette `Command + Shift + P` (macOS).
+To prettify proto, select message's ShortDebugString and run command *pretty_proto* through Command Palette <kbd>Command+Shift+P</kbd> (macOS).
 
-Default key bindings for command *pretty_proto*:
+To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, you can add a setting like this to your .sublime-keymap file (eg: `Packages/User/Default (OSX).sublime-keymap`):
 
-- macOS: `Command + Shift + J`
-- Linux: `Ctrl + Alt + J`
-- Windows: `Ctrl + Alt + J`
-
+```json
+[
+    {
+        "keys": [
+            "super+shift+j"
+        ],
+        "command": "pretty_proto"
+    }
+]
+```
