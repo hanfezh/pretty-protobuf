@@ -24,5 +24,5 @@ To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, yo
 ]
 ```
 
-![demo image](./demo.gif)
+![demo image](https://raw.githubusercontent.com/hanfezh/pretty-proto/main/demo.gif)
 
