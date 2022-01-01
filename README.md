@@ -23,3 +23,6 @@ To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, yo
     }
 ]
 ```
+
+![demo image](/Users/xianfeng/Projects/pretty-proto/demo.gif)
+
