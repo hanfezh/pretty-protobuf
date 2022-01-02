@@ -7,6 +7,15 @@ Use [Python Lex-Yacc](https://www.dabeaz.com/ply) to parse the debug string.
 
 Install "Pretty Proto" via [Package Control](https://packagecontrol.io/)
 
+Or manually, take macOS as an example:
+
+```bash
+# Go to the packages directory of Sublime Text
+# Sublime Text -> Preferences -> Browse Packages...
+cd $HOME/Library/Application\ Support/Sublime\ Text/Packages
+git clone https://github.com/hanfezh/pretty-proto.git Pretty\ Proto
+```
+
 ## Usage
 
 To prettify proto, select message's debug string and run command *pretty_proto* through Command Palette <kbd>Command+Shift+P</kbd> (macOS). If no selection, the entire file is used by default.
