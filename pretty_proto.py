@@ -133,9 +133,11 @@ class ProtoParser(Parser):
 
 class ProtoFormatter:
     def __init__(self, obj):
+        self.__settings = sublime.load_settings('Pretty Proto.sublime-settings')
         self.__obj = obj
         self.__lst = []
-        self.__spaces = 4
+        self.__spaces = self.__settings.get('indent', 4)
+        self.__sort_keys = self.__settings.get('sort_keys', False)
         self.__seperator = ' '
 
     def format(self):
@@ -146,6 +148,8 @@ class ProtoFormatter:
         if isinstance(obj, dict):
             spaces = self.__seperator * times
             self.__append(f'{spaces}{name} {{' if name else f'{spaces}{{')
+            if self.__sort_keys:
+                obj = dict(sorted(obj.items(), key=lambda x: x[0]))
             for k, v in obj.items():
                 self.__format(k, v, times + self.__spaces)
             self.__append(f'{spaces}}}')

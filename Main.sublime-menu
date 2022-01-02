@@ -1,0 +1,29 @@
+[
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "caption": "Pretty Proto",
+                        "children": [
+                            {
+                                "args":
+                                {
+                                    "base_file": "${packages}/Pretty Proto/Pretty Proto.sublime-settings",
+                                    "default": "{\n\t$0\n}\n"
+                                },
+                                "caption": "Settings",
+                                "command": "edit_settings"
+                            },
+                            {
+                                "caption": "-"
+                            }
+                        ]
+                    }
+                ],
+                "id": "package-settings"
+            }
+        ],
+        "id": "preferences"
+    }
+]
