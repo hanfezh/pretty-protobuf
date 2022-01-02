@@ -1,7 +1,9 @@
 [
     {
+        "id": "preferences",
         "children": [
             {
+                "id": "package-settings",
                 "children": [
                     {
                         "caption": "Pretty Proto",
@@ -20,10 +22,8 @@
                             }
                         ]
                     }
-                ],
-                "id": "package-settings"
+                ]
             }
-        ],
-        "id": "preferences"
+        ]
     }
 ]
