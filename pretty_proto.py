@@ -78,7 +78,6 @@ class ProtoParser(Parser):
 
     def t_error(self, t):
         print("Illegal character '%s'" % t.value[0])
-        t.lexer.skip(1)
 
     # Parsing rules
 
@@ -178,6 +177,11 @@ class PrettyProtoCommand(sublime_plugin.TextCommand):
         if first_reg.empty():
             first_reg = sublime.Region(0, self.view.size())
         lines = self.view.substr(first_reg)
-        if lines:
+        if not lines:
+            return
+        try:
             lines = self.pretty_proto(lines)
-            self.view.replace(edit, first_reg, lines)
+            if lines:
+                self.view.replace(edit, first_reg, lines)
+        except lex.LexError as err:
+            print(f'{lines = }\n{err = }')
