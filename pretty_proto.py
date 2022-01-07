@@ -86,6 +86,11 @@ class ProtoParser(Parser):
                      | object"""
         p[0] = p[1]
 
+    def p_expression_key(self, p):
+        """key : NAME
+               | NUMBER"""
+        p[0] = p[1]
+
     def p_expression_literal(self, p):
         """literal : NAME
                    | BOOL
@@ -95,8 +100,8 @@ class ProtoParser(Parser):
         p[0] = p[1]
 
     def p_expression_pair(self, p):
-        """pair : NAME ':' literal
-                | NAME object"""
+        """pair : key ':' literal
+                | key object"""
         if p[2] == ':':
             p[0] = OrderedDict({p[1]: p[3]})
         else:
