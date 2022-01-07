@@ -38,7 +38,7 @@ class Parser:
 
 class ProtoParser(Parser):
     tokens = (
-        'NAME', 'BOOL', 'NUMBER', 'STRING'
+        'NAME', 'BOOL', 'FLOAT', 'INTEGER', 'STRING'
     )
 
     literals = ['{', '}', '[', ']', ':']
@@ -47,7 +47,8 @@ class ProtoParser(Parser):
 
     t_NAME = r'(?!true|false)[a-zA-Z_][a-zA-Z0-9_]*'
     t_BOOL = r'true|false'
-    t_NUMBER = r'-?([0-9]+)(.[0-9]+)?([eE][-+]?[0-9]+)?'
+    t_FLOAT = r'((\d+)(\.\d+)(e(\+|-)?(\d+))?)|((\d+)e(\+|-)?(\d+))([lL]|[fF])'
+    t_INTEGER = r'-?([0-9]+)(.[0-9]+)?([eE][-+]?[0-9]+)?'
 
     def t_STRING(self, t):
         r'\"([^\\\n]|(\\(.|\n)))*?\"'
@@ -88,13 +89,14 @@ class ProtoParser(Parser):
 
     def p_expression_key(self, p):
         """key : NAME
-               | NUMBER"""
+               | INTEGER"""
         p[0] = p[1]
 
     def p_expression_literal(self, p):
         """literal : NAME
                    | BOOL
-                   | NUMBER
+                   | FLOAT
+                   | INTEGER
                    | STRING"""
         # NAME support enum
         p[0] = p[1]
