@@ -48,7 +48,7 @@ class ProtoParser(Parser):
     t_NAME = r'(?!true|false)[a-zA-Z_][a-zA-Z0-9_]*'
     t_BOOL = r'true|false'
     t_FLOAT = r'((\d+)(\.\d+)(e(\+|-)?(\d+))?)|((\d+)e(\+|-)?(\d+))([lL]|[fF])'
-    t_INTEGER = r'-?([0-9]+)(.[0-9]+)?([eE][-+]?[0-9]+)?'
+    t_INTEGER = r'-?([0-9]+)(\.[0-9]+)?([eE][-+]?[0-9]+)?'
 
     def t_STRING(self, t):
         r'\"([^\\\n]|(\\(.|\n)))*?\"'
