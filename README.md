@@ -33,7 +33,7 @@ To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, yo
 ]
 ```
 
-![demo image](https://preview.redd.it/a3y1g1j640b81.gif?format=mp4&s=2c4ee45f8d3286b6a9732a96bbd600f8ea7bf15c)
+![demo image](./demo.gif)
 
 ## Settings
 
