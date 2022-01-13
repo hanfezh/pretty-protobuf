@@ -38,15 +38,15 @@ class Parser:
 
 class ProtoParser(Parser):
     tokens = (
-        'NAME', 'BOOL', 'FLOAT', 'INTEGER', 'STRING'
+        'BOOL', 'NAME', 'FLOAT', 'INTEGER', 'STRING'
     )
 
     literals = ['{', '}', '[', ']', ':']
 
     # Tokens
 
-    t_NAME = r'(?!true|false)[a-zA-Z_][a-zA-Z0-9_]*'
     t_BOOL = r'true|false'
+    t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
     t_FLOAT = r'((\d+)(\.\d+)(e(\+|-)?(\d+))?)|((\d+)e(\+|-)?(\d+))([lL]|[fF])'
     t_INTEGER = r'-?([0-9]+)(\.[0-9]+)?([eE][-+]?[0-9]+)?'
 
