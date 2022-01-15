@@ -4,7 +4,7 @@
         "command": "pretty_proto"
     },
     {
-        "caption": "Pretty Proto: Format Debug String",
+        "caption": "Pretty Proto: Format Message Debug String",
         "command": "pretty_debug_string"
     }
 ]

@@ -3,6 +3,6 @@
     //     "keys": [
     //         "ctrl+alt+j"
     //     ],
-    //     "command": "pretty_proto"
+    //     "command": "pretty_debug_string"
     // }
 ]
