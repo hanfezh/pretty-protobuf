@@ -18,7 +18,7 @@ git clone https://github.com/hanfezh/pretty-proto.git Pretty\ Proto
 
 ## Usage
 
-To prettify proto's debug string, select message's debug string and run command *pretty_proto* through Command Palette <kbd>Command+Shift+P</kbd> (macOS). If no selection, the entire file is used by default.
+To prettify proto's debug string, select message's debug string and run command *pretty_debug_string* through Command Palette <kbd>Command+Shift+P</kbd> (macOS). If no selection, the entire file is used by default.
 
 To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, you can add a setting like this to your .sublime-keymap file (eg: `Packages/User/Default (OSX).sublime-keymap`):
 
@@ -28,14 +28,18 @@ To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, yo
         "keys": [
             "super+shift+j"
         ],
-        "command": "pretty_proto"
+        "command": "pretty_debug_string"
     }
 ]
 ```
 
 ![demo image](https://i.redd.it/on25vd96x6b81.gif)
 
-## Settings
+To prettify Protobuf, execute command *pretty_proto*.
+
+- Requirements: [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+
+## Configuration
 
 Default settings:
 
