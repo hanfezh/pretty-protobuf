@@ -1,7 +1,13 @@
 [
     // {
     //     "keys": [
-    //         "ctrl+alt+j"
+    //         "ctrl+shift+k"
+    //     ],
+    //     "command": "pretty_protobuf"
+    // },
+    // {
+    //     "keys": [
+    //         "ctrl+shift+j"
     //     ],
     //     "command": "pretty_debug_string"
     // }
