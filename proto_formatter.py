@@ -136,6 +136,12 @@ class ProtoParser(Parser):
             print("Syntax error at EOF")
 
 class ProtoSettings:
+    __instance = None
+    def __new__(cls, *args, **kwargs):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+        return cls.__instance
+
     def __init__(self):
         self.__settings = sublime.load_settings('Pretty Proto.sublime-settings')
         self.__spaces = self.__settings.get('indent', 4)

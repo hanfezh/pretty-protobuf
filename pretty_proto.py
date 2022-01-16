@@ -4,7 +4,7 @@
 import subprocess
 import sublime
 import sublime_plugin
-from .proto_formatter import ProtoFormatter
+from .proto_formatter import ProtoSettings, ProtoFormatter
 
 class PrettyProtoCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -35,7 +35,7 @@ class PrettyDebugStringCommand(sublime_plugin.TextCommand):
         if len(self.view.sel()) < 1:
             return
         first_reg = self.view.sel()[0]
-        if first_reg.empty():
+        if first_reg.empty() and ProtoSettings().use_entire_file:
             first_reg = sublime.Region(0, self.view.size())
         lines = self.view.substr(first_reg)
         if not lines:

@@ -1,4 +1,5 @@
 {
     "indent": 4,
-    "sort_keys": false
+    "sort_keys": false,
+    "use_entire_file_if_no_selection": true
 }
