@@ -1,11 +1,11 @@
-# Pretty Proto
+# Pretty Protobuf
 It is a plugin for [Sublime Text](https://www.sublimetext.com) 3 & 4, used to prettify the debug string of [Protobuf](https://developers.google.com/protocol-buffers) messages.
 
 Use [Python Lex-Yacc](https://www.dabeaz.com/ply) to parse the debug string.
 
 ## Installation
 
-Install "Pretty Proto" via [Package Control](https://packagecontrol.io/).
+Install "Pretty Protobuf" via [Package Control](https://packagecontrol.io/).
 
 Or manually, take macOS as an example:
 
@@ -18,7 +18,7 @@ git clone https://github.com/hanfezh/pretty-proto.git Pretty\ Proto
 
 ## Usage
 
-To prettify proto's debug string, select message's debug string and run command "Pretty Proto: Format Message Debug String" through Command Palette <kbd>Command+Shift+P</kbd> (macOS). If no selection, the entire file is used by default.
+To prettify proto's debug string, select message's debug string and run command "Pretty Protobuf: Format Message Debug String" through Command Palette <kbd>Command+Shift+P</kbd> (macOS). If no selection, the entire file is used by default.
 
 To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, you can add a setting like this to your .sublime-keymap file (eg: `Packages/User/Default (OSX).sublime-keymap`):
 
@@ -35,7 +35,7 @@ To map a key combination like <kbd>Command+Alt+J</kbd> to the Minify command, yo
 
 ![demo image](https://i.redd.it/on25vd96x6b81.gif)
 
-To prettify Protobuf, execute command "Pretty Proto: Format Protobuf":
+To prettify Protobuf, execute command "Pretty Protobuf: Format Protobuf":
 
 - Requirements: [clang-format](https://clang.llvm.org/docs/ClangFormat.html)
 
@@ -45,11 +45,13 @@ Default settings for prettifying message debug string:
 
 - *indent*: 4 spaces
 - *sort_keys*: false, set true to sort keys
+- *use_entire_file_if_no_selection*: true
 
 ```json
 {
     "indent": 4,
-    "sort_keys": false
+    "sort_keys": false,
+    "use_entire_file_if_no_selection": true
 }
 ```
 

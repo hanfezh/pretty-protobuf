@@ -6,12 +6,12 @@
                 "id": "package-settings",
                 "children": [
                     {
-                        "caption": "Pretty Proto",
+                        "caption": "Pretty Protobuf",
                         "children": [
                             {
                                 "args":
                                 {
-                                    "base_file": "${packages}/Pretty Proto/Pretty Proto.sublime-settings",
+                                    "base_file": "${packages}/Pretty Protobuf/Pretty Protobuf.sublime-settings",
                                     "default": "{\n\t$0\n}\n"
                                 },
                                 "caption": "Settings",

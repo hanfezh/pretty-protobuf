@@ -143,7 +143,7 @@ class ProtoSettings:
         return cls.__instance
 
     def __init__(self):
-        self.__settings = sublime.load_settings('Pretty Proto.sublime-settings')
+        self.__settings = sublime.load_settings('Pretty Protobuf.sublime-settings')
         self.__spaces = self.__settings.get('indent', 4)
         self.__sort_keys = self.__settings.get('sort_keys', False)
         self.__use_entire_file = self.__settings.get('use_entire_file_if_no_selection', True)
