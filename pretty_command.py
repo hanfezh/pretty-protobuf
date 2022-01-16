@@ -6,7 +6,7 @@ import sublime
 import sublime_plugin
 from .proto_formatter import ProtoSettings, ProtoFormatter
 
-class PrettyProtoCommand(sublime_plugin.TextCommand):
+class PrettyProtobufCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         region = sublime.Region(0, self.view.size())
         lines = self.view.substr(region)

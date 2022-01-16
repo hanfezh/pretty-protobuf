@@ -13,7 +13,7 @@ Or manually, take macOS as an example:
 # Go to the packages directory of Sublime Text
 # Sublime Text -> Preferences -> Browse Packages...
 cd $HOME/Library/Application\ Support/Sublime\ Text/Packages
-git clone https://github.com/hanfezh/pretty-proto.git Pretty\ Proto
+git clone https://github.com/hanfezh/pretty-protobuf.git Pretty\ Proto
 ```
 
 ## Usage
