@@ -4,7 +4,7 @@
 import subprocess
 import sublime
 import sublime_plugin
-from .proto_formatter import ProtoParser, ProtoFormatter
+from .proto_formatter import ProtoFormatter
 
 class PrettyProtoCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -28,11 +28,8 @@ class PrettyProtoCommand(sublime_plugin.TextCommand):
         self.view.replace(edit, region, stdout.decode())
 
 class PrettyDebugStringCommand(sublime_plugin.TextCommand):
-    parser = ProtoParser()
-
     def pretty_proto(self, s):
-        obj = self.parser.parse(s)
-        return ProtoFormatter(obj).format()
+        return ProtoFormatter(s).format()
 
     def run(self, edit):
         if len(self.view.sel()) < 1:

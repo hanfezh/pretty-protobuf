@@ -135,13 +135,30 @@ class ProtoParser(Parser):
         else:
             print("Syntax error at EOF")
 
-class ProtoFormatter:
-    def __init__(self, obj):
+class ProtoSettings:
+    def __init__(self):
         self.__settings = sublime.load_settings('Pretty Proto.sublime-settings')
-        self.__obj = obj
-        self.__lst = []
         self.__spaces = self.__settings.get('indent', 4)
         self.__sort_keys = self.__settings.get('sort_keys', False)
+        self.__use_entire_file = self.__settings.get('use_entire_file_if_no_selection', True)
+
+    @property
+    def spaces(self):
+        return self.__spaces
+
+    @property
+    def sort_keys(self):
+        return self.__sort_keys
+
+    @property
+    def use_entire_file(self):
+        return self.__use_entire_file
+
+class DictFormatter:
+    def __init__(self, obj):
+        self.__settings = ProtoSettings()
+        self.__obj = obj
+        self.__lst = []
         self.__seperator = ' '
 
     def format(self):
@@ -152,10 +169,10 @@ class ProtoFormatter:
         if isinstance(obj, dict):
             spaces = self.__seperator * times
             self.__append(f'{spaces}{name} {{' if name else f'{spaces}{{')
-            if self.__sort_keys:
+            if self.__settings.sort_keys:
                 obj = dict(sorted(obj.items(), key=lambda x: x[0]))
             for k, v in obj.items():
-                self.__format(k, v, times + self.__spaces)
+                self.__format(k, v, times + self.__settings.spaces)
             self.__append(f'{spaces}}}')
         elif isinstance(obj, list):
             for item in obj:
@@ -167,3 +184,14 @@ class ProtoFormatter:
 
     def __append(self, s):
         self.__lst.append(s)
+
+class ProtoFormatter:
+    parser = ProtoParser()
+
+    def __init__(self, debug_str):
+        # Keep original debug string
+        self.__debug_string = debug_str
+
+    def format(self):
+        obj = self.parser.parse(self.__debug_string)
+        return DictFormatter(obj).format()
