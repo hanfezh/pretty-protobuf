@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 import subprocess
 import sublime
 import sublime_plugin
@@ -11,11 +12,18 @@ class PrettyProtobufCommand(sublime_plugin.TextCommand):
         region = sublime.Region(0, self.view.size())
         lines = self.view.substr(region)
 
+        # Avoid flashing an ugly cmd prompt on Windows when invoking clang-format
+        startupinfo = None
+        if sys.platform.startswith('win32'):
+          startupinfo = subprocess.STARTUPINFO()
+          startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+          startupinfo.wShowWindow = subprocess.SW_HIDE
+
         command = ['clang-format']
         if self.view.file_name():
             command += ['-assume-filename', self.view.file_name()]
         proc = subprocess.Popen(command, stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                stderr=subprocess.PIPE, stdin=subprocess.PIPE, startupinfo=startupinfo)
         stdout, stderr = proc.communicate(input=lines.encode())
         if stderr:
           print(f'{stderr = }')
