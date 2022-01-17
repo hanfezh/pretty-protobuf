@@ -29,7 +29,7 @@ class PrettyProtobufCommand(sublime_plugin.TextCommand):
           print(f'{stderr = }')
         if not stdout:
           print('No output from clang-format, maybe crashed...\n'
-                'Please report to https://github.com/hanfezh/pretty-proto/issues')
+                'Please report to https://github.com/hanfezh/pretty-protobuf/issues')
           return
 
         # Replace with formatted content
