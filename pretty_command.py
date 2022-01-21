@@ -19,7 +19,7 @@ class PrettyProtobufCommand(sublime_plugin.TextCommand):
           startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
           startupinfo.wShowWindow = subprocess.SW_HIDE
 
-        command = ['clang-format']
+        command = [ProtoSettings().clang_format_path]
         if self.view.file_name():
             command += ['-assume-filename', self.view.file_name()]
         proc = subprocess.Popen(command, stdout=subprocess.PIPE,

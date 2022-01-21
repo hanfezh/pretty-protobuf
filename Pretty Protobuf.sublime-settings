@@ -1,5 +1,6 @@
 {
     "indent": 4,
     "sort_keys": false,
-    "use_entire_file_if_no_selection": true
+    "use_entire_file_if_no_selection": true,
+    "clang_format_path": ""
 }

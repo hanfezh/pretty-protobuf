@@ -148,6 +148,7 @@ class ProtoSettings:
         self.__spaces = self.__settings.get('indent', 4)
         self.__sort_keys = self.__settings.get('sort_keys', False)
         self.__use_entire_file = self.__settings.get('use_entire_file_if_no_selection', True)
+        self.__clang_format_path = self.__settings.get('clang_format_path', '')
 
     @property
     def spaces(self):
@@ -160,6 +161,10 @@ class ProtoSettings:
     @property
     def use_entire_file(self):
         return self.__use_entire_file
+
+    @property
+    def clang_format_path(self):
+        return self.__clang_format_path if self.__clang_format_path else 'clang-format'
 
 class DictFormatter:
     def __init__(self, obj):
