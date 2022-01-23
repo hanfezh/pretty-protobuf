@@ -36,9 +36,6 @@ class PrettyProtobufCommand(sublime_plugin.TextCommand):
         self.view.replace(edit, region, stdout.decode())
 
 class PrettyDebugStringCommand(sublime_plugin.TextCommand):
-    def pretty_proto(self, s):
-        return ProtoFormatter(s).format()
-
     def run(self, edit):
         if len(self.view.sel()) < 1:
             return
@@ -48,9 +45,6 @@ class PrettyDebugStringCommand(sublime_plugin.TextCommand):
         lines = self.view.substr(first_reg)
         if not lines:
             return
-        try:
-            lines = self.pretty_proto(lines)
-            if lines:
-                self.view.replace(edit, first_reg, lines)
-        except lex.LexError as err:
-            print(f'{lines = }\n{err = }')
+        lines = ProtoFormatter(lines).format()
+        if lines:
+            self.view.replace(edit, first_reg, lines)

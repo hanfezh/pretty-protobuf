@@ -205,5 +205,9 @@ class ProtoFormatter:
         self.__debug_string = debug_str
 
     def format(self):
-        obj = self.parser.parse(self.__debug_string)
-        return DictFormatter(obj).format()
+        try:
+            obj = self.parser.parse(self.__debug_string)
+            return DictFormatter(obj).format()
+        except lex.LexError as err:
+            print(f'{self.__debug_string = }\n{err = }')
+        return ''
