@@ -1,5 +1,5 @@
 # Pretty Protobuf
-It is a plugin for [Sublime Text](https://www.sublimetext.com) 3 & 4, used to prettify the debug string of [Protobuf](https://developers.google.com/protocol-buffers) messages.
+It is a plugin for [Sublime Text](https://www.sublimetext.com) 4, used to prettify the debug string of [Protobuf](https://developers.google.com/protocol-buffers) messages.
 
 Use [Python Lex-Yacc](https://www.dabeaz.com/ply) to parse the debug string.
 
@@ -46,12 +46,14 @@ Default settings for prettifying message debug string:
 - *indent*: 4 spaces
 - *sort_keys*: false, set true to sort keys
 - *use_entire_file_if_no_selection*: true
+- *clang_format_path*: clang-format, change to canonical path, such as */usr/local/bin/clang-format*
 
 ```json
 {
     "indent": 4,
     "sort_keys": false,
-    "use_entire_file_if_no_selection": true
+    "use_entire_file_if_no_selection": true,
+    "clang_format_path": "clang-format"
 }
 ```
 
