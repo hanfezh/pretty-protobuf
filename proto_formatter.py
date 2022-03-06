@@ -164,7 +164,7 @@ class ProtoSettings:
 
     @property
     def clang_format_path(self):
-        return self.__clang_format_path if self.__clang_format_path else 'clang-format'
+        return self.__clang_format_path or 'clang-format'
 
 class DictFormatter:
     def __init__(self, obj):
