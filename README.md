@@ -33,7 +33,7 @@ To map a key combination like <kbd>Ctrl+Shift+J</kbd> to the Minify command, you
 ]
 ```
 
-![demo image](https://i.redd.it/on25vd96x6b81.gif)
+![Demo of Pretty Protobuf Debug String](https://i.redd.it/ieoyk86cuql81.gif)
 
 To prettify Protobuf, execute command "Pretty Protobuf: Format Protobuf":
 
